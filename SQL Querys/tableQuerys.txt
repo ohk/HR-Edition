@@ -1,3 +1,4 @@
+CREATE SCHEMA `employee` ;
 CREATE TABLE `employee`.`employees` (
   `TC` VARCHAR(11) NOT NULL,
   `name` VARCHAR(45) NULL,

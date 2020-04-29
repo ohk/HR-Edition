@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 public class GUI extends javax.swing.JFrame {
 
     dbOP db = new dbOP();
+    int eProjectID = -1;
     int projectIDs = -1;
 
     /**
@@ -680,6 +681,7 @@ public class GUI extends javax.swing.JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
             clearFields();
             personelToTable();
+        projectToTable();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null,
                     ex,
@@ -699,6 +701,7 @@ public class GUI extends javax.swing.JFrame {
 
     private void btn_updatePersonelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_updatePersonelActionPerformed
         Employee tmp = new Employee(txt_tc.getText(), txt_name.getText(), txt_surname.getText(), txt_phone.getText(), cb_title.getSelectedIndex(), txt_address.getText(), Float.parseFloat(txt_salary.getText()), cb_salaryType.getSelectedIndex());
+        tmp.setProjectId(1);
         try {
             db.updateEmployee(tmp);
             JOptionPane.showMessageDialog(null,
@@ -707,6 +710,7 @@ public class GUI extends javax.swing.JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
             clearFields();
             personelToTable();
+            projectToTable();
         } catch (SQLException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -754,6 +758,7 @@ public class GUI extends javax.swing.JFrame {
         txt_minTester.setText(projectTable.getModel().getValueAt(row, 14).toString());
         txt_projeBegin.setText(projectTable.getModel().getValueAt(row, 18).toString());
         txt_projeFinish.setText(projectTable.getModel().getValueAt(row, 19).toString());
+        eProjectID = (int) projectTable.getModel().getValueAt(row, 1);
     }//GEN-LAST:event_projectTableMousePressed
 
     private void btn_projeEkleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_projeEkleActionPerformed
@@ -776,7 +781,8 @@ public class GUI extends javax.swing.JFrame {
                     "INFO",
                     JOptionPane.INFORMATION_MESSAGE);
             clearFields();
-            projectToTable();
+            personelToTable();
+        projectToTable();
         } catch (SQLException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -804,7 +810,8 @@ public class GUI extends javax.swing.JFrame {
                         "INFO",
                         JOptionPane.INFORMATION_MESSAGE);
                 clearFields();
-            projectToTable();
+            personelToTable();
+        projectToTable();
             } catch (SQLException ex) {
                 Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -821,7 +828,8 @@ public class GUI extends javax.swing.JFrame {
                         "INFO",
                         JOptionPane.INFORMATION_MESSAGE);
                 clearFields();
-            projectToTable();
+            personelToTable();
+        projectToTable();
             }
         } catch (SQLException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);

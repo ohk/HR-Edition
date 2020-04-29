@@ -208,4 +208,11 @@ public class Employee {
         this.compensation = this.salary * 20;
     }
 
+    @Override
+    public String toString() {
+        System.out.println("Employee{" + "TC=" + TC + ", projectId=" + projectId + ", name=" + name + ", surname=" + surname + ", phone=" + phone + ", type=" + type + ", address=" + address + ", salary=" + salary + ", salaryType=" + salaryType + ", begin=" + begin + ", end=" + end + ", isWorking=" + isWorking + ", compensation=" + compensation + '}');
+        return "";
+    }
+
+    
 }

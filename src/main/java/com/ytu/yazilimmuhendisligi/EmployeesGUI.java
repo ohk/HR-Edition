@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class EmployeesGUI extends javax.swing.JFrame {
     dbOP db = new dbOP();
-    public int projectID;
+    public int projectID = 1;
     /**
      * Creates new form EmployeesGUI
      */

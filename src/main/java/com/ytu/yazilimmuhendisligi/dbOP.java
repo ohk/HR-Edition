@@ -259,25 +259,26 @@ public class dbOP {
      */
     private int assignedProject(Employee e) throws SQLException {
         String query = "SELECT * FROM projects WHERE projectID = " + e.getProjectId();
+        e.toString();
         Statement stmt = connection.createStatement();
         ResultSet rs = stmt.executeQuery(query);
         int cnt = 0;
         if (rs.next()) {
 
             switch (e.getType()) {
-                case 1:
+                case 0:
                     cnt = rs.getInt("managerCNT");
                     break;
-                case 2:
+                case 1:
                     cnt = rs.getInt("designerCNT");
                     break;
-                case 3:
+                case 2:
                     cnt = rs.getInt("developerCNT");
                     break;
-                case 4:
+                case 3:
                     cnt = rs.getInt("analystCNT");
                     break;
-                case 5:
+                case 4:
                     cnt = rs.getInt("testerCNT");
                     break;
             }
@@ -286,19 +287,19 @@ public class dbOP {
         cnt++;
         PreparedStatement update = null;
         switch (e.getType()) {
-            case 1:
+            case 0:
                 update = connection.prepareStatement("UPDATE projects SET managerCNT = ? WHERE projectID = ?");
                 break;
-            case 2:
+            case 1:
                 update = connection.prepareStatement("UPDATE projects SET designerCNT = ? WHERE projectID = ?");
                 break;
-            case 3:
+            case 2:
                 update = connection.prepareStatement("UPDATE projects SET developerCNT = ? WHERE projectID = ?");
                 break;
-            case 4:
+            case 3:
                 update = connection.prepareStatement("UPDATE projects SET analystCNT = ? WHERE projectID = ?");
                 break;
-            case 5:
+            case 4:
                 update = connection.prepareStatement("UPDATE projects SET testerCNT = ? WHERE projectID = ?");
                 break;
         }
@@ -315,6 +316,7 @@ public class dbOP {
      * @throws java.sql.SQLException 
      */
     private int getProjectID(int type) throws SQLException {
+        int projectID = -1;
         String queryType1 = "SELECT projectId FROM projects WHERE managerCNT<managerMIN  AND projectStatus = 1";
         String queryType2 = "SELECT projectId FROM projects WHERE designerCNT<designerMIN  AND projectStatus = 1";
         String queryType3 = "SELECT projectId FROM projects WHERE developerCNT<developerMIN  AND projectStatus = 1";
@@ -328,50 +330,85 @@ public class dbOP {
         ResultSet rs = null;
         Statement stmt = connection.createStatement();
         switch (type) {
-            case 1:
+            case 0:
                 rs = stmt.executeQuery(queryType1);
-                rs.next();
-                if (rs.next() == false) {
-                    rs = stmt.executeQuery(queryType6);
+                try{
+                    rs.next();
+                    projectID = rs.getInt("projectId");
+                }catch(Exception e){
+                    try{
+                        rs = stmt.executeQuery(queryType6);
+                    rs.next();
+                    projectID = rs.getInt("projectId");
+                    } catch(Exception t){
+                        System.out.println("Project not found!");
+                    }
+                }
+                break;
+            case 1:
+                rs = stmt.executeQuery(queryType2);
+                try{
+                     rs.next();
+                projectID = rs.getInt("projectId");
+                }catch(Exception e){
+                    try{
+                        rs = stmt.executeQuery(queryType7);
+                    rs.next();
+                    projectID = rs.getInt("projectId");
+                    } catch(Exception t){
+                        System.out.println("Project not found!");
+                    }
                 }
                 break;
             case 2:
-                rs = stmt.executeQuery(queryType2);
-                rs.next();
-                if (rs.next() == false) {
-                    rs = stmt.executeQuery(queryType7);
+                rs = stmt.executeQuery(queryType3);
+                try{
+                    rs.next();
+                    projectID = rs.getInt("projectId");
+                }catch(Exception e){
+                    try{
+                        rs = stmt.executeQuery(queryType8);
+                        rs.next();
+                        projectID = rs.getInt("projectId");
+                    } catch(Exception t){
+                        System.out.println("Project not found!");
+                    }
                 }
                 break;
             case 3:
-                rs = stmt.executeQuery(queryType3);
-                rs.next();
-                if (rs.next() == false) {
-                    rs = stmt.executeQuery(queryType8);
+                rs = stmt.executeQuery(queryType4);
+                try{
+                    rs.next();
+                    projectID = rs.getInt("projectId");
+                }catch(Exception e){
+                    try{
+                        rs = stmt.executeQuery(queryType9);
+                        rs.next();
+                        projectID = rs.getInt("projectId");
+                    } catch(Exception t){
+                        System.out.println("Project not found!");
+                    }
                 }
                 break;
             case 4:
-                rs = stmt.executeQuery(queryType4);
-                rs.next();
-                if (rs.next() == false) {
-                    rs = stmt.executeQuery(queryType9);
-                }
-                break;
-            case 5:
                 rs = stmt.executeQuery(queryType5);
-                rs.next();
-                if (rs.next() == false) {
-                    rs = stmt.executeQuery(queryType10);
+                try{
+                    rs.next();
+                    projectID = rs.getInt("projectId");
+                }catch(Exception e){
+                    try{
+                        rs = stmt.executeQuery(queryType10);
+                    rs.next();
+                    projectID = rs.getInt("projectId");
+                    } catch(Exception t){
+                        System.out.println("Project not found!");
+                    }
                 }
                 break;
             default:
                 break;
         }
-        int projectID = -1;
-        if (rs != null) {
-            rs.first();
-            projectID = rs.getInt("projectId");
-        }
-
+        System.out.println("Gelen projectID: "+ projectID);
         return projectID;
     }
 
